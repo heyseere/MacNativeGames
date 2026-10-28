@@ -2,42 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>StringsTable</key>
-	<string>Root</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>遊戲語言 · Game language</string>
 			<key>FooterText</key>
 			<string>重新啟動遊戲後生效 · takes effect after relaunching the game</string>
+			<key>Title</key>
+			<string>遊戲語言 · Game language</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSRadioGroupSpecifier</string>
+			<key>DefaultValue</key>
+			<string></string>
 			<key>Key</key>
 			<string>TOTK_LANG</string>
 			<key>Title</key>
 			<string>語言 · Language</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>Values</key>
-			<array>
-				<string></string>
-				<string>zh-Hant</string>
-				<string>zh-Hans</string>
-				<string>en-US</string>
-				<string>ja</string>
-				<string>de</string>
-				<string>es</string>
-				<string>fr</string>
-				<string>it</string>
-				<string>nl</string>
-				<string>ru</string>
-				<string>ko</string>
-			</array>
 			<key>Titles</key>
 			<array>
 				<string>自動 · 跟隨系統語言 · Follow system language</string>
@@ -53,131 +34,191 @@
 				<string>Русский</string>
 				<string>한국어</string>
 			</array>
+			<key>Type</key>
+			<string>PSRadioGroupSpecifier</string>
+			<key>Values</key>
+			<array>
+				<string></string>
+				<string>zh-Hant</string>
+				<string>zh-Hans</string>
+				<string>en-US</string>
+				<string>ja</string>
+				<string>de</string>
+				<string>es</string>
+				<string>fr</string>
+				<string>it</string>
+				<string>nl</string>
+				<string>ru</string>
+				<string>ko</string>
+			</array>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>畫面 · Display</string>
 			<key>FooterText</key>
 			<string>開啟：遊戲的底座設定，輸出 1920×1080、內部 1600×900，需要較快的 iPad。關閉：手持 1280×720（內部 960×540）。重新啟動遊戲後生效 · on: the game's docked settings, 1920×1080 output, 1600×900 inside (for a fast iPad). Off: handheld 1280×720 (960×540 inside). Takes effect after relaunching the game</string>
+			<key>Title</key>
+			<string>畫面 · Display</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<key>DefaultValue</key>
+			<false/>
 			<key>Key</key>
 			<string>TOTK_DOCKED</string>
 			<key>Title</key>
 			<string>Full HD（底座模式）· Full HD (docked)</string>
-			<key>DefaultValue</key>
-			<false/>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>幀率 · Frame rate</string>
 			<key>FooterText</key>
 			<string>鎖 30 幀畫面更穩、手機更涼；遊戲中也可以點觸控按鍵中間的 60 / 30 切換 · 30 is steadier and keeps the phone cooler; the 60 / 30 button between − and + of the touch controls switches it while playing</string>
+			<key>Title</key>
+			<string>幀率 · Frame rate</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
+			<key>DefaultValue</key>
+			<string>60</string>
 			<key>Key</key>
 			<string>TOTK_PHONE_FPS</string>
 			<key>Title</key>
 			<string>幀率 · Frame rate</string>
-			<key>DefaultValue</key>
-			<string>60</string>
-			<key>Values</key>
-			<array>
-				<string>60</string>
-				<string>30</string>
-			</array>
 			<key>Titles</key>
 			<array>
 				<string>最高 60 · Up to 60</string>
 				<string>鎖 30 · Held at 30</string>
 			</array>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Values</key>
+			<array>
+				<string>60</string>
+				<string>30</string>
+			</array>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>觸控操作 · Touch controls</string>
 			<key>FooterText</key>
 			<string>未連接手柄時使用手機的陀螺儀和觸覺馬達；接上手柄後自動讓位。重新啟動遊戲後生效 · uses the phone's gyro and haptic actuator with no controller connected; a connected controller takes over. Takes effect after relaunching the game</string>
+			<key>Title</key>
+			<string>觸控操作 · Touch controls</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<key>DefaultValue</key>
+			<true/>
 			<key>Key</key>
 			<string>TOTK_PHONE_GYRO</string>
 			<key>Title</key>
 			<string>手機體感 · Phone gyro</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
 			<key>Key</key>
 			<string>TOTK_PHONE_HAPTICS</string>
 			<key>Title</key>
 			<string>手機震動 · Phone haptics</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>手柄 · Controller</string>
-			<key>FooterText</key>
-			<string>震动与陀螺仪只对支持的手柄生效。体感瞄准同时受游戏内选项影响。重新启动游戏后生效 · rumble and gyro apply only to controllers that have them, and motion aiming is also subject to the game's own option. Takes effect after relaunching</string>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Key</key>
-			<string>TOTK_RUMBLE</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>震动与陀螺仪只对支持的手柄生效。体感瞄准同时受游戏内选项影响。重新启动游戏后生效 · rumble and gyro apply only to controllers that have them, and motion aiming is also subject to the game's own option. Takes effect after relaunching</string>
 			<key>Title</key>
-			<string>手柄震动 · Controller rumble</string>
+			<string>手柄 · Controller</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
 			<true/>
 			<key>FooterText</key>
 			<string>只对带触感的手柄生效；关掉后手机本身的震动也一起关 · applies to controllers with haptics; off also turns the phone's own vibration off</string>
-		</dict>
-		<dict>
+			<key>Key</key>
+			<string>TOTK_RUMBLE</string>
+			<key>Title</key>
+			<string>手柄震动 · Controller rumble</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Key</key>
-			<string>TOTK_GYRO</string>
-			<key>Title</key>
-			<string>手柄陀螺仪 · Controller gyro</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
 			<true/>
 			<key>FooterText</key>
 			<string>体感瞄准同时受游戏内选项影响 · motion aiming is also subject to the game's own option</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<key>Key</key>
+			<string>TOTK_GYRO</string>
 			<key>Title</key>
-			<string>除錯 · Debug</string>
-			<key>FooterText</key>
-			<string>開啟後把日誌寫進 App 的 Documents/log.txt（在 Mac 上讀取），會稍微影響效能；關閉時不記錄任何日誌。重新啟動遊戲後生效 · writes Documents/log.txt for reading on a Mac (slightly slower); off records nothing. Takes effect after relaunching the game</string>
-		</dict>
-		<dict>
+			<string>手柄陀螺仪 · Controller gyro</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>開啟後把日誌寫進 App 的 Documents/log.txt（在 Mac 上讀取），會稍微影響效能；關閉時不記錄任何日誌。重新啟動遊戲後生效 · writes Documents/log.txt for reading on a Mac (slightly slower); off records nothing. Takes effect after relaunching the game</string>
+			<key>Title</key>
+			<string>除錯 · Debug</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
 			<key>Key</key>
 			<string>TOTK_DEBUG_LOG</string>
 			<key>Title</key>
 			<string>記錄日誌 · Debug log</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>所有设备同步存档：填同一个 WebDAV 服务器（坚果云、Nextcloud 等）。留空关闭。服务器地址如 https://dav.jianguoyun.com/dav
+Saves sync between all your devices through one WebDAV server. Leave empty to keep it off.</string>
+			<key>Title</key>
+			<string>存档同步（WebDAV）· Save sync (WebDAV)</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
-			<false/>
+			<string></string>
+			<key>Key</key>
+			<string>TOTK_WEBDAV_URL</string>
+			<key>Title</key>
+			<string>服务器 · Server URL</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Key</key>
+			<string>TOTK_WEBDAV_USER</string>
+			<key>Title</key>
+			<string>账户 · Account</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>IsSecure</key>
+			<true/>
+			<key>Key</key>
+			<string>TOTK_WEBDAV_PASSWORD</string>
+			<key>Title</key>
+			<string>应用密码 · App password</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
 		</dict>
 	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
 </dict>
 </plist>

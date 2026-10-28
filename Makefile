@@ -19,4 +19,6 @@ check:
 	 $(CC) -std=c11 -Wall -Wextra -Werror -fsanitize=undefined -fno-sanitize-recover=all \
 	   tests/test_romfs_paths.c -o "$$tmp/test-romfs-paths" && "$$tmp/test-romfs-paths" && \
 	 $(CC) -std=c11 -Wall -Wextra -Werror -fsanitize=undefined -fno-sanitize-recover=all \
-	   tests/test_controller_map.c -o "$$tmp/test-controller-map" && "$$tmp/test-controller-map"
+	   tests/test_controller_map.c -o "$$tmp/test-controller-map" && "$$tmp/test-controller-map" && \
+	 $(CC) -std=c11 -Wall -Wextra -Werror -fsanitize=undefined -fno-sanitize-recover=all \
+	   tests/test_save_sync.c games/totk/app/save_sync.c -Igames/totk/app -o "$$tmp/test-save-sync" && "$$tmp/test-save-sync"

@@ -99,7 +99,14 @@ void runtime_autoload_user_input(void) {}
 uint64_t runtime_now_ns(void) { return clock_gettime_nsec_np(CLOCK_UPTIME_RAW); }
 
 #define SIZE(w, h) ((uint64_t)(h) << 32 | (w))
-static void tick(void) { [NSRunLoop.currentRunLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.02]]; }
+/* A run loop pass, with what was queued on the main queue first: settings_rebuild and the panel's other redraws are
+   dispatched, and a short pass can end before they are served (seen on the CI's slower runners). */
+static void tick(void) {
+    for (int pass = 0; pass < 3; pass++) {
+        dispatch_async(dispatch_get_main_queue(), ^{});
+        [NSRunLoop.currentRunLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.02]];
+    }
+}
 /* Key 1 toggles the panel on the main queue; a run loop pass may end before it is served (right after a key binding was
    captured), so two. */
 static void press(unsigned key) { runtime_input_key_synthetic(key, 1); runtime_input_key_synthetic(key, 0); tick(); tick(); }
@@ -432,7 +439,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
 
     /* Pages: Display, Input and Key bindings; the page shown last opens again. */
     press(18); assert(settingsOpen);
-    [settingsPanel selectPage:SETTINGS_PAGE_DISPLAY]; tick();
+    [settingsPanel selectPage:SETTINGS_PAGE_DISPLAY];
     assert(settingsPanel.rows.count == 7 && [settingsPanel.rows[0].title isEqualToString:@"Overlay"]);
     /* The display page's bottom right: contribute shaders and star the project, after the rows for a controller; the
        version stays clear of them; a result shows for a moment where the version is. */
@@ -444,7 +451,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
     NSString *versionText = settingsPanel.versionLabel.stringValue;
     [settingsPanel note:@"Thank you!"]; assert([settingsPanel.versionLabel.stringValue isEqualToString:@"Thank you!"]);
     settingsPanel.versionLabel.stringValue = versionText; settingsPanel.versionLabel.frame = NSMakeRect(18, 9, 230, 16);
-    [settingsPanel selectPage:SETTINGS_PAGE_INPUT]; tick();
+    [settingsPanel selectPage:SETTINGS_PAGE_INPUT];
     assert(contribute.hidden && starButton.hidden);   /* the first page only */
     assert(settingsPanel.rows.count == 11 && !settingsPanel.pages[SETTINGS_PAGE_INPUT].hidden && settingsPanel.pages[SETTINGS_PAGE_DISPLAY].hidden);
     assert(settingsPanel.tabs.selectedSegment == SETTINGS_PAGE_INPUT);
@@ -462,7 +469,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
 
     /* The bottom line: the version in the bottom-left corner (not in the overlay box), no key hints, no buttons on the
        settings pages, a small margin under the last row. */
-    [settingsPanel selectPage:SETTINGS_PAGE_DISPLAY]; tick();
+    [settingsPanel selectPage:SETTINGS_PAGE_DISPLAY];
     assert([settingsPanel.versionLabel.stringValue isEqualToString:@"Ver. " TOTK_GAME_VERSION]);
     press(18); setenv("TOTK_SOURCE_COMMIT", "abc1234", 1); press(18); assert(settingsOpen);
     assert([settingsPanel.versionLabel.stringValue isEqualToString:@"Ver. " TOTK_GAME_VERSION " · build abc1234"]);
@@ -559,7 +566,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
     [settingsPanel controllerPad:(RuntimeGamepadState){.connected = 1} time:103 active:YES];
     [settingsPanel controllerPad:(RuntimeGamepadState){.connected = 1, .buttons = 1u << 6} time:103.1 active:YES];
     assert(settingsPanel.page == SETTINGS_PAGE_BINDINGS);
-    [settingsPanel selectPage:SETTINGS_PAGE_DISPLAY]; tick();
+    [settingsPanel selectPage:SETTINGS_PAGE_DISPLAY];
 
     /* Key bindings as drawings (PR #1210): the panel made wider for them; the keyboard and mouse, or the controller,
        with what each key or button does; a click's menu of actions; the actions nothing drives; a controller moves through

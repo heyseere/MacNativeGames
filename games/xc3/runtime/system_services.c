@@ -114,11 +114,17 @@ static int32_t list_frame_history(void *out, int32_t count, const void *layer) {
 static int32_t ldn_state(void) { return 0; }
 static uint32_t ldn_unavailable(void) { return LDN_UNAVAILABLE; }
 static uint32_t nsd_unavailable(void) { return NSD_UNAVAILABLE; }
+/* nn::ec::ShowShopAddOnContentList: 2.2.1's DLC menu ("Purchase") opens the eShop library applet and blocks until the
+   player closes it. There is no eShop here and the host runs no library applets (the SDK read a null applet proxy; seen in
+   play, 2026-10-29), so the shop opens and closes at once and the game returns to its menu. The add-ons the player extracted are listed by
+   nn::aoc all the same (2.2.1, XC3_AOC=0 hides them). */
+static void shop_closed(uint64_t application_id, const void *user) { (void)user; fprintf(stderr, "[totk] eShop add-on list for %016llx: no shop on this Mac, closed at once\n", (unsigned long long)application_id); }
 void *runtime_game_override(const char *name) {
     static const struct { const char *name; void *fn; } entries[] = {
         {"_ZN2nn2oe13MuteRecordingEv", nop}, {"_ZN2nn2oe15UnmuteRecordingEv", nop},
         {"_ZN2nn2oe15EnableRecordingEv", nop}, {"_ZN2nn2oe16DisableRecordingEv", nop},
         {"_ZN2nn2oe14ExecuteProgramEiPKvm", execute_program},
+        {"_ZN2nn2ec24ShowShopAddOnContentListENS_13ApplicationIdERKNS_7account10UserHandleE", shop_closed},
         {"_ZN2nn4nifm10InitializeEv", ok}, {"_ZN2nn4nifm18IsNetworkAvailableEv", network_available},
         {"_ZN2nn4nifm27SubmitNetworkRequestAndWaitEv", nifm_request}, {"_ZN2nn4nifm20CancelNetworkRequestEv", nop},
         {"_ZN2nn4nifm31HandleNetworkRequestErrorResultEv", nifm_unavailable},

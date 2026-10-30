@@ -104,7 +104,18 @@ void runtime_autoload_user_input(void) {}
 uint64_t runtime_now_ns(void) { return clock_gettime_nsec_np(CLOCK_UPTIME_RAW); }
 
 #define SIZE(w, h) ((uint64_t)(h) << 32 | (w))
-static void tick(void) { [NSRunLoop.currentRunLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.02]]; }
+/* The main queue's work awaited before the judge: the panel is made again for the list / drawings switch and for a
+   layout change (settings_rebuild, on the main queue), and a run loop pass alone may end before that is served. The
+   sentinel is queued after the work under test and stops the loop once it runs. */
+static void tick(void) {
+    static unsigned long generation;
+    unsigned long mine = ++generation;
+    __block BOOL served = NO;
+    CFRunLoopRef loop = CFRunLoopGetCurrent();
+    dispatch_async(dispatch_get_main_queue(), ^{ served = YES; if (mine == generation) CFRunLoopStop(loop); });
+    NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:0.5];
+    while (!served && deadline.timeIntervalSinceNow > 0) CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, false);
+}
 /* Key 1 toggles the panel on the main queue; a run loop pass may end before it is served (right after a key binding was
    captured), so two. */
 static void press(unsigned key) { runtime_input_key_synthetic(key, 1); runtime_input_key_synthetic(key, 0); tick(); tick(); }

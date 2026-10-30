@@ -482,9 +482,16 @@ int main(int argc, const char **argv) { @autoreleasepool {
     settingsPanel.versionLabel.stringValue = versionText; settingsPanel.versionLabel.frame = NSMakeRect(18, 9, 230, 16);
     [settingsPanel selectPage:SETTINGS_PAGE_INPUT];
     assert(contribute.hidden && starButton.hidden);   /* the first page only */
-    assert(settingsPanel.rows.count == 11 && !settingsPanel.pages[SETTINGS_PAGE_INPUT].hidden && settingsPanel.pages[SETTINGS_PAGE_DISPLAY].hidden);
+    assert(settingsPanel.rows.count == 7 && !settingsPanel.pages[SETTINGS_PAGE_INPUT].hidden && settingsPanel.pages[SETTINGS_PAGE_DISPLAY].hidden);
     assert(settingsPanel.tabs.selectedSegment == SETTINGS_PAGE_INPUT);
     press(18); press(18); assert(settingsOpen && settingsPanel.page == SETTINGS_PAGE_INPUT);
+
+    /* The Saves page (PR #1227): the four WebDAV rows live here, and Input is back to its own seven. */
+    [settingsPanel selectPage:SETTINGS_PAGE_SAVES];
+    assert(settingsPanel.rows.count == 4 && [settingsPanel.rows[0].title isEqualToString:@"Save sync (WebDAV)"] &&
+           settingsPanel.tabs.selectedSegment == SETTINGS_PAGE_SAVES &&
+           !settingsPanel.pages[SETTINGS_PAGE_SAVES].hidden && settingsPanel.pages[SETTINGS_PAGE_INPUT].hidden);
+    [settingsPanel selectPage:SETTINGS_PAGE_INPUT];
 
     /* Mouse sensitivity: a slider from 1 to 100, at once; greyed out while TOTK_MOUSE_SENSITIVITY decides. */
     NSSlider *slider = (NSSlider *)row(@"Mouse sensitivity").control;
@@ -506,7 +513,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
     if (hudBox) { [(TOTKHudBox *)hudBox refresh]; assert([((TOTKHudBox *)hudBox).label.stringValue containsString:@"abc1234"]); }
     NSRect lastBand = [settingsPanel.rows.lastObject.control.superview convertRect:settingsPanel.rows.lastObject.control.superview.bounds toView:settingsPanel];
     NSRect version = settingsPanel.versionLabel.frame;
-    /* The panel is as tall as its fullest page (11 rows on Input after the WebDAV rows), so this page's last row keeps
+    /* The panel is as tall as its fullest page (8 rows on Display), so this page's last row keeps
        that many rows of room below it: the version sits under it, and the space is the rows this page is short by. */
     NSUInteger fullest = 0;
     for (NSInteger page = 0; page < SETTINGS_PAGES; page++) {
@@ -669,6 +676,6 @@ int main(int argc, const char **argv) { @autoreleasepool {
         assert([[rep representationUsingType:NSBitmapImageFileTypePNG properties:@{}] writeToFile:@(argv[1]) atomically:YES]);
     }
     [settingsPanel.timer invalidate];
-    puts("pass: settings panel (key 1 / Esc, overlay, frame lock, interpolation, resolution 1080p / MetalFX / 2K / 4K and window size, aspect 16:9 / 16:10 / 21:9 / 32:9, aspect ratio, switches, controller type, rumble / rumble strength / gyro aiming, WebDAV save sync, game keys blocked while open, keys 2-7 inert, Chinese)");
+    puts("pass: settings panel (key 1 / Esc, overlay, frame lock, interpolation, resolution 1080p / MetalFX / 2K / 4K and window size, aspect 16:9 / 16:10 / 21:9 / 32:9, aspect ratio, switches, controller type, rumble / rumble strength / gyro aiming, WebDAV save sync on its own Saves page, game keys blocked while open, keys 2-7 inert, Chinese)");
     return 0;
 }}
